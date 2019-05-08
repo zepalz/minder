@@ -5,6 +5,7 @@ import React from 'react';
 
 import { AlertHelper } from '../components/AlertHelper';
 import firebase from '../config/firebase'
+import Loading from '../components/common/Loading'
 import Login from '../components/login/Login'
 import Register from '../components/login/Register'
 
@@ -12,16 +13,20 @@ import LogoImage from '../assets/logo.png'
 
 class LoginScreen extends React.Component {
   static navigationOptions = {
-    header: null
+    header: null,
   }
 
   state = {
-    isLogin: true
+    isLogin: true,
+    isLoading: true
   }
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      this.props.navigation.navigate(user ? 'HomeScreen' : 'LoginScreen')
+      if (user)
+        this.props.navigation.navigate('HomeScreen')
+      else
+        this.setState({ isLoading: false })
     })
   }
 
@@ -32,17 +37,22 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <LinearGradient colors={['#fe5f75', '#fc9842']} style={{ flex: 1 }} locations={[0.25, 1]}>
-        <KeyboardAvoidingView
-          behavior="padding"
-          enabled
-          style={styles.container}
-        >
-          <View style={styles.logo}>
-            <Image style={{ width: 75, height: 75 }} source={LogoImage} />
-            <Text style={{ fontWeight: 'bold', fontSize: 24 }}>MINDER</Text>
-          </View>
-          {this.state.isLogin ? <Login goToRegister={this.toggleLogin} /> : <Register goToLogin={this.toggleLogin} />}
-        </KeyboardAvoidingView>
+        {
+          this.state.isLoading
+            ? <Loading />
+            :
+            <KeyboardAvoidingView
+              behavior="padding"
+              enabled
+              style={styles.container}
+            >
+              <View style={styles.logo}>
+                <Image style={{ width: 75, height: 75 }} source={LogoImage} />
+                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>MINDER</Text>
+              </View>
+              {this.state.isLogin ? <Login goToRegister={this.toggleLogin} /> : <Register goToLogin={this.toggleLogin} />}
+            </KeyboardAvoidingView>
+        }
         <DropdownAlert
           ref={ref => AlertHelper.setDropDown(ref)}
           onClose={() => AlertHelper.invokeOnClose()}
@@ -69,6 +79,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     backgroundColor: 'white',
     padding: 10,
+    marginBottom: 40,
     alignItems: 'center',
   },
 });

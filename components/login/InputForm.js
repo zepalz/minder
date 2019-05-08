@@ -8,7 +8,8 @@ export default ({ input, onChangeText }) => (
     style={{
       backgroundColor: 'rgba(200, 200, 200, 0.5)',
       borderRadius: 10,
-      margin: 5
+      marginTop: 5,
+      marginBottom: 5
     }}
     iconClass={FontAwesomeIcon}
     iconColor='white'
