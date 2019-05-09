@@ -2,18 +2,15 @@ import { View, Text, ImageBackground, Button, Dimensions } from 'react-native'
 import React, { Component } from 'react'
 
 import { apiKey, imageBaseUrl } from '../config/themoviedb'
-import { HeaderIcon } from '../components/common/styled'
+import HeaderIcon from '../components/common/HomeIcon'
 import genres from '../utils/genres'
 
+import LogoImage from '../assets/logo.png'
 import LogoActiveImage from '../assets/logo-active.png'
-import SearchImage from '../assets/search.png'
-import UserImage from '../assets/user.png'
 
 class HomeScreen extends Component {
   static navigationOptions = {
-    headerLeft: <HeaderIcon source={UserImage} onPress={() => this.props.navigation.navigate('UserScreen')} />,
-    headerTitle: <HeaderIcon source={LogoActiveImage} />,
-    headerRight: <HeaderIcon source={SearchImage} onPress={() => this.props.navigation.navigate('SearchScreen')} />
+    tabBarIcon: ({ tintColor }) => <HeaderIcon source={tintColor ? LogoActiveImage : LogoImage} />,
   }
 
   state = {

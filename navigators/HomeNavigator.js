@@ -1,11 +1,40 @@
-import { createStackNavigator, createAppContainer } from 'react-navigation'
+import React, { Component } from 'react'
+import { createMaterialTopTabNavigator, SafeAreaView } from 'react-navigation'
 
 import HomeScreen from '../screens/HomeScreen'
 import SearchScreen from '../screens/SearchScreen'
 import UserScreen from '../screens/UserScreen'
 
-export default createAppContainer(createStackNavigator({
+const MaterialTopTabNavigator = createMaterialTopTabNavigator({
   HomeScreen,
   SearchScreen,
   UserScreen
-}))
+}, {
+  tabBarOptions: {
+    order: [],
+    style: {
+      backgroundColor: 'white',
+    },
+    indicatorStyle: {
+      backgroundColor: 'white'
+    },
+    showIcon: true,
+    showLabel: false,
+    activeTintColor: 'active',
+    inactiveTintColor: null
+  }
+})
+
+class TabNavigator extends Component {
+  static router = MaterialTopTabNavigator.router
+
+  render() {
+    return (
+      <SafeAreaView style={{ flex: 1 }} forceInset={{ horizontal: 'always', top: 'always' }}>
+        <MaterialTopTabNavigator navigation={this.props.navigation} />
+      </SafeAreaView>
+    )
+  }
+}
+
+export default TabNavigator

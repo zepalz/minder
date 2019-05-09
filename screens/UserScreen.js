@@ -1,21 +1,18 @@
 import { View, Text, Image } from 'react-native'
 import React, { Component } from 'react'
 
-import { HeaderIcon } from '../components/common/styled'
+import HeaderIcon from '../components/common/HomeIcon'
 
-import LogoImage from '../assets/logo.png'
-import SearchImage from '../assets/search.png'
 import UserActiveImage from '../assets/user-active.png'
+import UserImage from '../assets/user.png'
 
 class UserScreen extends Component {
   static navigationOptions = {
-    headerLeft: <HeaderIcon source={UserActiveImage} />,
-    headerTitle: <HeaderIcon source={LogoImage} onPress={() => this.props.navigation.navigate('HomeScreen')}/>,
-    headerRight: <HeaderIcon source={SearchImage} onPress={() => this.props.navigation.navigate('SearchScreen')} />
+    tabBarIcon: ({ tintColor }) => <HeaderIcon source={tintColor ? UserActiveImage : UserImage} />,
   }
 
   componentDidMount() {
-    
+
   }
 
   render() {

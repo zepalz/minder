@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, KeyboardAvoidingView } from 'react-nativ
 import DropdownAlert from 'react-native-dropdownalert';
 import React from 'react';
 
-import { AlertHelper } from '../components/AlertHelper';
+import { AlertHelper } from '../components/common/AlertHelper';
 import firebase from '../config/firebase'
 import Loading from '../components/common/Loading'
 import Login from '../components/login/Login'

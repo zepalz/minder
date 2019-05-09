@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
 import React, { Component } from 'react'
 
-import { AlertHelper } from '../AlertHelper';
+import { AlertHelper } from '../common/AlertHelper';
 import { BoldText, InputView, StyledTouchableOpacity } from './styled'
 import firebase from '../../config/firebase'
 import Input from './InputForm'
