@@ -9,7 +9,7 @@ import Loading from '../components/common/Loading'
 import Login from '../components/login/Login'
 import Register from '../components/login/Register'
 
-import LogoImage from '../assets/logo.png'
+import LogoImage from '../assets/logo-active.png'
 
 class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -23,10 +23,7 @@ class LoginScreen extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      if (user)
-        this.props.navigation.navigate('HomeScreen')
-      else
-        this.setState({ isLoading: false })
+      user ? this.props.navigation.navigate('HomeNavigator') : this.setState({ isLoading: false })
     })
   }
 
