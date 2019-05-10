@@ -10,7 +10,7 @@ import styles from '../common/styled'
 
 const MovieDetail = ({ movie, onFetching }) => (
   <StyledImageBg
-    source={{ uri: imageBaseUrl + movie.poster_path }}
+    source={{ uri: imageBaseUrl + '/w500/' + movie.poster_path }}
     style={styles.shadow}
     imageStyle={{ borderRadius: 10 }}
   >

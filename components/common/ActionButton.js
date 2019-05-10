@@ -7,7 +7,10 @@ import styles from './styled'
 
 const ActionButton = props => (
   <TouchableHighlight style={{ ...styles.shadow, borderRadius: 40 }} {...props}>
-    <Image source={props.type === 'like' ? LikeIcon : DislikeIcon} style={{ width: 60, height: 60 }} />
+    <Image
+      source={props.type === 'like' ? LikeIcon : DislikeIcon}
+      style={props.size ? { width: props.size, height: props.size } : { width: 60, height: 60 }}
+    />
   </TouchableHighlight>
 )
 

@@ -34,8 +34,7 @@ class HomeScreen extends Component {
     this.setState({ onFetching: true })
     const randomPage = Math.floor((Math.random() * 359) + 1)
     const randomMovie = Math.floor((Math.random() * 19))
-    const response = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=${randomPage}`)
-    const { results: movies } = await response.json()
+    const { results: movies } = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=${randomPage}`).then(res => res.json())
     this.setState({ movie: movies[randomMovie], onFetching: false }, () => console.log(this.state.movie))
   }
 

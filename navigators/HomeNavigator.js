@@ -6,9 +6,9 @@ import SearchScreen from '../screens/SearchScreen'
 import UserScreen from '../screens/UserScreen'
 
 const MaterialTopTabNavigator = createMaterialTopTabNavigator({
+  SearchScreen,
   HomeScreen,
   UserScreen,
-  SearchScreen,
 }, {
   tabBarOptions: {
     initialRouteName: 'HomeScreen',
