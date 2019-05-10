@@ -1,14 +1,14 @@
 import { View, Text } from 'react-native'
 import React, { Component } from 'react'
 
-import HeaderIcon from '../components/common/HomeIcon'
+import { TabBarIcon } from '../components/common/styled'
 
 import SearchImage from '../assets/search.png'
 import SearchActiveImage from '../assets/search-active.png'
 
 class SearchScreen extends Component {
   static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => <HeaderIcon source={tintColor ? SearchActiveImage : SearchImage} />,
+    tabBarIcon: ({ tintColor }) => <TabBarIcon source={tintColor ? SearchActiveImage : SearchImage} />,
   }
 
   componentDidMount() {

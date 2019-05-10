@@ -7,11 +7,11 @@ import UserScreen from '../screens/UserScreen'
 
 const MaterialTopTabNavigator = createMaterialTopTabNavigator({
   HomeScreen,
+  UserScreen,
   SearchScreen,
-  UserScreen
 }, {
   tabBarOptions: {
-    order: [],
+    initialRouteName: 'HomeScreen',
     style: {
       backgroundColor: 'white',
     },
