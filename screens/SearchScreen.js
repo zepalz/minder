@@ -1,10 +1,13 @@
-import { ListItem, SearchBar } from 'react-native-elements'
-import { View, Text, FlatList } from 'react-native'
+import { SearchBar, ListItem } from 'react-native-elements'
+import { View, Text, FlatList, Alert } from 'react-native'
+import firebase from 'firebase'
 import React, { Component } from 'react'
 
 import { apiKey, imageBaseUrl } from '../config/themoviedb'
 import { TabBarIcon } from '../components/common/styled'
 import ActionButton from '../components/common/ActionButton'
+import EmptyItem from '../components/common/EmptyItem'
+import ModalMovie from '../components/common/ModalMovie'
 
 import SearchActiveImage from '../assets/search-active.png'
 import SearchImage from '../assets/search.png'
@@ -17,8 +20,9 @@ class SearchScreen extends Component {
 
   state = {
     movies: [],
-    defaultMovies: [],
     searching: false,
+    isModalVisible: false,
+    movie: {}
   }
 
   async componentDidMount() {
@@ -26,24 +30,6 @@ class SearchScreen extends Component {
     const { results: movies } = await response.json()
     this.setState({ movies })
   }
-
-  renderEmpty = () => (
-    <View style={{ margin: 10, alignItems: 'center' }}>
-      <Text>
-        {this.state.searching ? 'Searching...' : 'No results found'}
-      </Text>
-    </View>
-  )
-
-  renderListItem = ({ item: movie }) => (
-    <ListItem
-      title={movie.title}
-      containerStyle={{ borderBottomWidth: 0 }}
-      subtitle={`Score: ${movie.vote_average.toFixed(1).toString()}`}
-      leftAvatar={{ source: { uri: imageBaseUrl + '/w200/' + movie.poster_path } }}
-      rightIcon={<ActionButton type="like" size={40} onPress={this.like} />}
-    />
-  )
 
   updateSearch = searchText => {
     const fetchMyHint = async () => {
@@ -56,7 +42,29 @@ class SearchScreen extends Component {
     })
   }
 
+  like = (movie) => {
+    Alert.alert(
+      'Add ?', `${movie.title} will be add to your movie list.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Add', onPress: () => {
+            const ref = firebase.database().ref(`users/${firebase.auth().currentUser.uid}/movieList`)
+            const key = ref.push().key
+            ref.update({ [key]: { key, ...movie } })
+          }
+        }
+      ]
+    )
+  }
+
+  toggleModal = (movie = {}) => {
+    this.setState({ movie, isModalVisible: !this.state.isModalVisible })
+  }
+
   render() {
+    const { movieListFromFb } = this.props.screenProps
+
     return (
       <View style={{ flex: 1 }}>
         <SearchBar
@@ -66,15 +74,24 @@ class SearchScreen extends Component {
           value={this.state.searchText}
         />
         {
-          this.state.searching
-            ? this.renderEmpty()
+          this.state.searching ? <EmptyItem text='Searching...' />
             : <FlatList
-              keyExtractor={item => item.id.toString()}
               data={this.state.movies}
-              renderItem={this.renderListItem}
-              ListEmptyComponent={this.renderEmpty()}
+              keyExtractor={item => item.id.toString()}
+              renderItem={
+                ({ item: movie }) =>
+                  <ListItem
+                    onPress={() => this.toggleModal(movie)}
+                    title={movie.title}
+                    containerStyle={{ borderBottomWidth: 0 }}
+                    subtitle={`Score: ${movie.vote_average.toFixed(1).toString()}`}
+                    leftAvatar={{ size: 'medium', source: { uri: imageBaseUrl + '/w200/' + movie.poster_path } }}
+                    rightElement={!(movieListFromFb.some(movieFb => movieFb.id === movie.id)) && <ActionButton type="like2" onPress={() => this.like(movie)} size={40} />}
+                  />}
+              ListEmptyComponent={<EmptyItem />}
             />
         }
+        <ModalMovie movie={this.state.movie} isModalVisible={this.state.isModalVisible} toggleModal={this.toggleModal} />
       </View>
     )
   }

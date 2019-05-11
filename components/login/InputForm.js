@@ -6,7 +6,9 @@ export default ({ input, onChangeText }) => (
   <Fumi
     labelStyle={{ color: 'white' }}
     style={{
-      backgroundColor: 'rgba(200, 200, 200, 0.5)',
+      backgroundColor: 'rgba(200, 200, 200, 0.3)',
+      borderWidth: 1,
+      borderColor: 'white',
       borderRadius: 10,
       marginTop: 5,
       marginBottom: 5

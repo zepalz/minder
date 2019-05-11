@@ -9,7 +9,7 @@ import Loading from '../components/common/Loading'
 import Login from '../components/login/Login'
 import Register from '../components/login/Register'
 
-import LogoImage from '../assets/logo-active.png'
+import LogoImage from '../assets/logo.png'
 
 class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -35,8 +35,7 @@ class LoginScreen extends React.Component {
     return (
       <LinearGradient colors={['#fe5f75', '#fc9842']} style={{ flex: 1 }} locations={[0.25, 1]}>
         {
-          this.state.isLoading
-            ? <Loading />
+          this.state.isLoading ? <Loading />
             :
             <KeyboardAvoidingView
               behavior="padding"
@@ -45,7 +44,6 @@ class LoginScreen extends React.Component {
             >
               <View style={styles.logo}>
                 <Image style={{ width: 75, height: 75 }} source={LogoImage} />
-                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>MINDER</Text>
               </View>
               {this.state.isLogin ? <Login goToRegister={this.toggleLogin} /> : <Register goToLogin={this.toggleLogin} />}
             </KeyboardAvoidingView>
@@ -66,17 +64,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    borderRadius: 10,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowColor: "#000",
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    backgroundColor: 'white',
     padding: 10,
-    marginBottom: 40,
+    marginBottom: 50,
     alignItems: 'center',
   },
 });

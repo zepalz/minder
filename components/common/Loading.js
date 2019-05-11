@@ -1,16 +1,18 @@
-import React from 'react'
-import { View } from 'react-native'
 import { BarIndicator } from 'react-native-indicators'
+import { View, Image } from 'react-native'
+import React from 'react'
 
-export default ({ transparent }) => (
+import LogoIcon from '../../assets/logo.png'
+
+export default ({ transparent, animate }) => (
   <View style={{
     height: '100%',
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: transparent ? 'rgba(255,255,255,0.5)' : 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    // opacity: transparent && 0.8
   }}>
-    <BarIndicator animationDuration={500} count={5} size={50} color='#fe5f75' />
+    {animate ? <BarIndicator animationDuration={500} count={5} size={50} color='#fe5f75' />
+      : <Image source={LogoIcon} style={{ width: 75, height: 75 }} />}
   </View>
 )

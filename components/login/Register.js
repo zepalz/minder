@@ -1,10 +1,10 @@
 import { Text, View } from 'react-native';
+import firebase from 'firebase'
 import React, { Component } from 'react'
 import validator from 'validator'
 
 import { AlertHelper } from '../common/AlertHelper';
 import { BoldText, InputView, StyledTouchableOpacity } from './styled'
-import firebase from '../../config/firebase'
 import Input from './InputForm'
 
 const inputDetails = [
@@ -14,6 +14,12 @@ const inputDetails = [
 ]
 
 class Register extends Component {
+  state = {
+    email: '',
+    password: '',
+    confirmPassword: ''
+  }
+
   onChangeText = (inputName, val) => {
     this.setState({ [inputName]: val })
   }
@@ -29,10 +35,10 @@ class Register extends Component {
       return
     }
     try {
-      let user = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      console.log(user);
-      await firebase.database().ref('users').push({ email })
-      this.props.goToLogin()
+      const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password)
+      user.updateProfile({ displayName: (email.split('@')[0]).toUpperCase() })
+      AlertHelper.show('success', 'Success', 'Register succesfully !');
+      await firebase.database().ref('users/' + user.uid).set({ email })
     }
     catch (error) {
       AlertHelper.show('error', 'Error', error);

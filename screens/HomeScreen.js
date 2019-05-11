@@ -1,13 +1,15 @@
-import { StyleSheet, View, Text, Dimensions } from 'react-native'
+import { StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback } from 'react-native'
+import firebase from 'firebase'
 import React, { Component } from 'react'
 
 import { apiKey } from '../config/themoviedb'
 import { TabBarIcon } from '../components/common/styled'
 import ActionButton from '../components/common/ActionButton'
-
+import ModalMovie from '../components/common/ModalMovie'
 import MovieDetail from '../components/home/MovieDetail'
-import LogoActiveImage from '../assets/logo-active.png'
-import LogoImage from '../assets/logo.png'
+
+import LogoActiveImage from '../assets/home-active.png'
+import LogoImage from '../assets/home.png'
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -24,6 +26,7 @@ class HomeScreen extends Component {
       vote_average: 0,
     },
     onFetching: false,
+    isModalVisible: true,
   }
 
   componentDidMount() {
@@ -44,6 +47,15 @@ class HomeScreen extends Component {
 
   like = async () => {
     this.generateNewMovie()
+    if (!(this.props.screenProps.movieListFromFb.some(movieFb => movieFb.id === this.state.movie.id))) {
+      const ref = firebase.database().ref(`users/${firebase.auth().currentUser.uid}/movieList`)
+      const key = ref.push().key
+      ref.update({ [key]: { key, ...this.state.movie } })
+    }
+  }
+
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible })
   }
 
   render() {
@@ -51,7 +63,10 @@ class HomeScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <MovieDetail movie={movie} onFetching={this.state.onFetching} />
+        <ModalMovie movie={movie} isModalVisible={this.state.isModalVisible} toggleModal={this.toggleModal} />
+        <TouchableWithoutFeedback onPress={this.toggleModal}>
+          <MovieDetail movie={movie} onFetching={this.state.onFetching} />
+        </TouchableWithoutFeedback>
         <View style={styles.actionBar}>
           <ActionButton type="dislike" disabled={this.state.onFetching} onPress={this.dislike} />
           <ActionButton type="like" disabled={this.state.onFetching} onPress={this.like} />

@@ -1,9 +1,9 @@
 import { Text, View } from 'react-native';
+import firebase from 'firebase'
 import React, { Component } from 'react'
 
 import { AlertHelper } from '../common/AlertHelper';
 import { BoldText, InputView, StyledTouchableOpacity } from './styled'
-import firebase from '../../config/firebase'
 import Input from './InputForm'
 
 const inputDetails = [
@@ -12,8 +12,9 @@ const inputDetails = [
 ]
 
 class Login extends Component {
-  componentDidMount() {
-    console.log(firebase);
+  state = {
+    email: '',
+    password: ''
   }
 
   onChangeText = (inputName, val) => {
@@ -24,7 +25,6 @@ class Login extends Component {
     const { email, password } = this.state
     try {
       const result = await firebase.auth().signInWithEmailAndPassword(email, password)
-      this.props.navigation.navigate('HomeScreen')
       AlertHelper.show('success', 'Success', 'Login succesfully !');
     } catch (error) {
       AlertHelper.show('error', 'Error', error);

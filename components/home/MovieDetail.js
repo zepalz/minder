@@ -14,10 +14,8 @@ const MovieDetail = ({ movie, onFetching }) => (
     style={styles.shadow}
     imageStyle={{ borderRadius: 10 }}
   >
-    {onFetching
-      ? <Loading transparent />
-      :
-      <LinearGradient style={{ borderRadius: 10 }} colors={['transparent', 'black']} location={[0.1, 1]}>
+    {onFetching ? <Loading transparent animate />
+      : <LinearGradient style={{ borderRadius: 10 }} colors={['transparent', 'black']} location={[0.1, 1]}>
         <MovieView>
           <View style={{ flex: 1 }}>
             <Text>
