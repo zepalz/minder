@@ -1,21 +1,14 @@
-import { StyleSheet, View, Text, Dimensions, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import firebase from 'firebase'
 import React, { Component } from 'react'
 
 import { apiKey } from '../config/themoviedb'
-import { TabBarIcon } from '../components/common/styled'
 import ActionButton from '../components/common/ActionButton'
 import ModalMovie from '../components/common/ModalMovie'
 import MovieDetail from '../components/home/MovieDetail'
 
-import LogoActiveImage from '../assets/home-active.png'
-import LogoImage from '../assets/home.png'
-
 class HomeScreen extends Component {
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => <TabBarIcon source={tintColor ? LogoActiveImage : LogoImage} />,
-  }
-
   state = {
     movie: {
       title: '',
@@ -26,7 +19,7 @@ class HomeScreen extends Component {
       vote_average: 0,
     },
     onFetching: false,
-    isModalVisible: true,
+    isModalVisible: false,
   }
 
   componentDidMount() {
@@ -38,16 +31,16 @@ class HomeScreen extends Component {
     const randomPage = Math.floor((Math.random() * 359) + 1)
     const randomMovie = Math.floor((Math.random() * 19))
     const { results: movies } = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=${randomPage}`).then(res => res.json())
-    this.setState({ movie: movies[randomMovie], onFetching: false }, () => console.log(this.state.movie))
+    this.setState({ movie: movies[randomMovie], onFetching: false })
   }
 
   dislike = async () => {
-    this.generateNewMovie()
+    await this.generateNewMovie()
   }
 
   like = async () => {
-    this.generateNewMovie()
-    if (!(this.props.screenProps.movieListFromFb.some(movieFb => movieFb.id === this.state.movie.id))) {
+    await this.generateNewMovie()
+    if (!(this.props.movies.some(movieFb => movieFb.id === this.state.movie.id))) {
       const ref = firebase.database().ref(`users/${firebase.auth().currentUser.uid}/movieList`)
       const key = ref.push().key
       ref.update({ [key]: { key, ...this.state.movie } })
@@ -81,7 +74,8 @@ const dimensions = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   actionBar: {
     width: dimensions.width,

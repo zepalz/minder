@@ -4,19 +4,11 @@ import firebase from 'firebase'
 import React, { Component } from 'react'
 
 import { imageBaseUrl } from '../config/themoviedb'
-import { TabBarIcon } from '../components/common/styled'
 import ActionButton from '../components/common/ActionButton'
 import EmptyItem from '../components/common/EmptyItem'
 import ModalMovie from '../components/common/ModalMovie'
 
-import UserActiveImage from '../assets/user-active.png'
-import UserImage from '../assets/user.png'
-
 class UserScreen extends Component {
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => <TabBarIcon source={tintColor ? UserActiveImage : UserImage} />,
-  }
-
   state = {
     user: firebase.auth().currentUser,
     movie: {}
@@ -30,7 +22,6 @@ class UserScreen extends Component {
         {
           text: 'Logout', onPress: () => {
             firebase.auth().signOut()
-            this.props.navigation.navigate('AuthNavigator')
           }
         }
       ]
@@ -56,7 +47,7 @@ class UserScreen extends Component {
   }
 
   render() {
-    const { movieListFromFb } = this.props.screenProps
+    const { movies } = this.props
 
     return (
       <View style={{ flex: 1 }}>
@@ -64,7 +55,7 @@ class UserScreen extends Component {
           <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{`${this.state.user.displayName}'S`} MOVIE LIST</Text>
         </View>
         <FlatList
-          data={movieListFromFb}
+          data={movies}
           keyExtractor={item => item.id.toString()}
           renderItem={
             ({ item: movie }) =>

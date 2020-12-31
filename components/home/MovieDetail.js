@@ -1,4 +1,4 @@
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import { View } from 'react-native'
 import React from 'react'
 
@@ -14,19 +14,30 @@ const MovieDetail = ({ movie, onFetching }) => (
     style={styles.shadow}
     imageStyle={{ borderRadius: 10 }}
   >
-    {onFetching ? <Loading transparent animate />
-      : <LinearGradient style={{ borderRadius: 10 }} colors={['transparent', 'black']} location={[0.1, 1]}>
+    {onFetching ? (
+      <Loading transparent animate />
+    ) : (
+      <LinearGradient style={{ borderRadius: 10 }} colors={['transparent', 'black']} location={[0.1, 1]}>
         <MovieView>
           <View style={{ flex: 1 }}>
             <Text>
-              <Text size="l" bold>{movie.title}</Text>, <Text size="m">{(new Date(movie.release_date).getFullYear())}</Text>
+              <Text size='l' bold>
+                {movie.title}
+              </Text>
+              , <Text size='m'>{new Date(movie.release_date).getFullYear()}</Text>
             </Text>
-            <Text>{movie.genre_ids.map((genre_id, index) => <Text key={index}>{genres[genre_id]} </Text>)}</Text>
+            <Text>
+              {movie.genre_ids.map((genre_id, index) => (
+                <Text key={index}>{genres[genre_id]} </Text>
+              ))}
+            </Text>
           </View>
-          <Text size="xl" bold>{(movie.vote_average).toFixed(1)}</Text>
+          <Text size='xl' bold>
+            {movie.vote_average.toFixed(1)}
+          </Text>
         </MovieView>
       </LinearGradient>
-    }
+    )}
   </StyledImageBg>
 )
 

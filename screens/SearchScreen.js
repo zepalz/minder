@@ -4,19 +4,12 @@ import firebase from 'firebase'
 import React, { Component } from 'react'
 
 import { apiKey, imageBaseUrl } from '../config/themoviedb'
-import { TabBarIcon } from '../components/common/styled'
 import ActionButton from '../components/common/ActionButton'
 import EmptyItem from '../components/common/EmptyItem'
 import ModalMovie from '../components/common/ModalMovie'
 
-import SearchActiveImage from '../assets/search-active.png'
-import SearchImage from '../assets/search.png'
-
 class SearchScreen extends Component {
   timer = null
-  static navigationOptions = {
-    tabBarIcon: ({ tintColor }) => <TabBarIcon source={tintColor ? SearchActiveImage : SearchImage} />,
-  }
 
   state = {
     movies: [],
@@ -63,7 +56,7 @@ class SearchScreen extends Component {
   }
 
   render() {
-    const { movieListFromFb } = this.props.screenProps
+    const { movies = [] } = this.props
 
     return (
       <View style={{ flex: 1 }}>
@@ -86,7 +79,7 @@ class SearchScreen extends Component {
                     containerStyle={{ borderBottomWidth: 0 }}
                     subtitle={`Score: ${movie.vote_average.toFixed(1).toString()}`}
                     leftAvatar={{ size: 'medium', source: { uri: imageBaseUrl + '/w200/' + movie.poster_path } }}
-                    rightElement={!(movieListFromFb.some(movieFb => movieFb.id === movie.id)) && <ActionButton type="like2" onPress={() => this.like(movie)} size={40} />}
+                    rightElement={!(movies.some(movieFb => movieFb.id === movie.id)) && <ActionButton type="like2" onPress={() => this.like(movie)} size={40} />}
                   />}
               ListEmptyComponent={<EmptyItem />}
             />

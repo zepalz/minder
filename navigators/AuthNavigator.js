@@ -1,19 +1,20 @@
 import React, { Component } from 'react'
-import { createStackNavigator, SafeAreaView } from 'react-navigation'
+import { SafeAreaView } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack'
 
 import LoginScreen from '../screens/LoginScreen'
 
-const StackNavigator = createStackNavigator({
-  LoginScreen,
-})
+const Stack = createStackNavigator()
 
 class AuthNavigator extends Component {
-  static router = StackNavigator.router
+  // static router = StackNavigator.router
 
   render() {
     return (
       <SafeAreaView style={{ flex: 1 }} forceInset={{ horizontal: 'always', top: 'always' }}>
-        <StackNavigator navigation={this.props.navigation} />
+        {/* <Stack.Navigator initialRouteName='Auth'> */}
+          <LoginScreen />
+        {/* </Stack.Navigator> */}
       </SafeAreaView>
     )
   }

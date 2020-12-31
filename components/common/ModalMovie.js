@@ -6,7 +6,7 @@ import React from 'react'
 import { imageBaseUrl } from '../../config/themoviedb'
 import genres from '../../utils/genres'
 
-const dimensions = Dimensions.get('window');
+const dimensions = Dimensions.get('window')
 
 export default ({ movie, isModalVisible, toggleModal }) => (
   <Modal
@@ -23,22 +23,24 @@ export default ({ movie, isModalVisible, toggleModal }) => (
       </View>
       <View style={styles.detailView}>
         <View style={styles.row}>
-          <Icon name="star" type="font-awesome" />
+          <Icon name='star' type='font-awesome' />
           <Text style={styles.textRow}>{movie.vote_average && movie.vote_average.toFixed(1).toString()}</Text>
         </View>
         <View style={styles.line} />
         <View style={styles.row}>
-          <Icon name="calendar" type="font-awesome" />
+          <Icon name='calendar' type='font-awesome' />
           <Text style={styles.textRow}>{movie.release_date}</Text>
         </View>
         <View style={styles.line} />
         <View style={styles.row}>
-          <Icon name="tags" type="font-awesome" />
-          <Text style={styles.textRow}>{movie.genre_ids && movie.genre_ids.map((genre_id, index) => <Text key={index}>{genres[genre_id]} </Text>)}</Text>
+          <Icon name='tags' type='font-awesome' />
+          <Text style={styles.textRow}>
+            {movie.genre_ids && movie.genre_ids.map((genre_id, index) => <Text key={index}>{genres[genre_id]} </Text>)}
+          </Text>
         </View>
         <View style={styles.line} />
         <View style={styles.row}>
-          <Icon name="book" type="font-awesome" />
+          <Icon name='book' type='font-awesome' />
           <Text style={styles.textRow}>{movie.overview}</Text>
         </View>
       </View>
@@ -50,38 +52,39 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     borderRadius: 10,
-    width: dimensions.width * 0.85,
-    height: dimensions.height * 0.85
+    width: dimensions.width * 0.8,
+    height: dimensions.height * 0.8,
   },
   alignItemCenter: {
     alignItems: 'center',
-    margin: 5
+    margin: 5,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     margin: 5,
+    textAlign: 'center',
   },
   image: {
     width: dimensions.width * 0.6,
-    height: Math.round(dimensions.width * 3 / 2) * 0.6
+    height: Math.round((dimensions.width * 3) / 2) * 0.6,
   },
   detailView: {
-    padding: 10
+    padding: 10,
   },
   row: {
     flexDirection: 'row',
-    margin: 5
+    margin: 5,
   },
   textRow: {
     flex: 1,
     alignItems: 'center',
     flexWrap: 'wrap',
-    marginLeft: 5
+    marginLeft: 5,
   },
   line: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: 'black',
-    margin: 10
-  }
+    margin: 10,
+  },
 })
